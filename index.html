@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resilient Habit Designer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #003366;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      background: #0077b6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #023e8a;
+    }
+    .hidden {
+      display: none;
+    }
+    .output {
+      white-space: pre-wrap;
+      background: #eef2f3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="intro">
+      <h2>RESILIENT HABIT DESIGNER</h2>
+      <p>The Behavior Design Model, developed by BJ Fogg, simplifies behavior change into a formula: <strong>B = MAP</strong>, where <strong>B</strong> represents Behavior, <strong>M</strong> stands for Motivation, <strong>A</strong> denotes Ability, and <strong>P</strong> represents Prompt.</p>
+      <p>This formula encapsulates the core components of how behavior change occurs.</p>
+      <p>To stop a habit or unwanted behavior; reverse the formula to <strong>B = M - A - P</strong>. This means making all these three (3) factors difficult to act upon can effectively disrupt the behavior.</p>
+      <p><strong>Image Component</strong></p>
+      <p><a href="https://aiwaapp.ai/site/51213/menu-behaviors" target="_blank">MENU OF SAMPLE RESILIENT BEHAVIORS</a></p>
+      <hr>
+    </div>
+    <div id="stepContainer"></div>
+    <div id="result" class="output hidden"></div>
+  </div>
+
+  <script>
+    const steps = [
+      {
+        title: "Step 1: Identify Habit",
+        content: `
+          <label>What habit would you like to start?</label>
+          <input id="habit" type="text" placeholder="e.g., Drink more water">
+        `
+      },
+      {
+        title: "Step 2: Clarify Purpose",
+        content: `
+          <label>Why do you want to start this habit?</label>
+          <textarea id="motivation" placeholder="e.g., To feel more energetic throughout the day"></textarea>
+        `
+      },
+      {
+        title: "Step 3: Choose Easy Start",
+        content: `
+          <label>Smallest version of your habit?</label>
+          <input id="behavior" type="text" placeholder="e.g., Drink one glass of water after waking up">
+          <h4>Ability Filter (1 = Low, 5 = High)</h4>
+          <label>Time Required</label><input id="time" type="number" min="1" max="5" value="3">
+          <label>Mental Effort</label><input id="mental" type="number" min="1" max="5" value="3">
+          <label>Money Needed</label><input id="money" type="number" min="1" max="5" value="1">
+          <label>Physical Effort</label><input id="physical" type="number" min="1" max="5" value="3">
+          <label>Routine Compatibility</label><input id="routine" type="number" min="1" max="5" value="3">
+        `
+      },
+      {
+        title: "Step 4: Pick Reliable Prompt",
+        content: `
+          <label>Trigger Prompt (\"When [prompt], I will [behavior]\")</label>
+          <input id="prompt" type="text" placeholder="e.g., When my alarm rings, I will drink water">
+        `
+      },
+      {
+        title: "Step 5: Celebrate Immediately",
+        content: `
+          <label>How will you celebrate?</label>
+          <input id="celebration" type="text" placeholder="e.g., Smile, Say Yes!, Fist Pump">
+        `
+      },
+      {
+        title: "Step 6: Flexibility Check",
+        content: `
+          <label>How often will you do this habit?</label>
+          <select id="frequency">
+            <option value="Daily">Daily</option>
+            <option value="Weekdays">Weekdays</option>
+            <option value="Specific Days">Specific Days (Mon, Wed, Fri)</option>
+            <option value="Flexible">Flexible (3 times/week)</option>
+          </select>
+        `
+      }
+    ];
+
+    let currentStep = 0;
+    const container = document.getElementById("stepContainer");
+    const result = document.getElementById("result");
+
+    function renderStep() {
+      const step = steps[currentStep];
+      const isLast = currentStep === steps.length - 1;
+      container.innerHTML = `
+        <h2>${step.title}</h2>
+        ${step.content}
+        <div class="buttons">
+          ${currentStep > 0 ? '<button onclick="prevStep()">Back</button>' : '<span></span>'}
+          <button onclick="${isLast ? 'handleFinalStep()' : 'nextStep()'}">${isLast ? 'Design My Habit' : 'Next'}</button>
+        </div>
+      `;
+    }
+
+    function nextStep() {
+      currentStep++;
+      renderStep();
+    }
+
+    function prevStep() {
+      currentStep--;
+      renderStep();
+    }
+
+    function handleFinalStep() {
+      // First, ensure all inputs from previous steps are in the DOM
+      container.innerHTML = '';
+      for (let i = 0; i < steps.length; i++) {
+        container.innerHTML += `<div style="display: none;">${steps[i].content}</div>`;
+      }
+
+      setTimeout(generateOutput, 0); // Wait for DOM update before generating output
+    }
+
+    function generateOutput() {
+      const ids = ["habit", "motivation", "behavior", "prompt", "celebration", "frequency", "time", "mental", "money", "physical", "routine"];
+      const values = {};
+
+      for (const id of ids) {
+        const element = document.getElementById(id);
+        if (!element) {
+          alert(`Missing input: ${id}`);
+          return;
+        }
+        values[id] = element.value;
+      }
+
+      const output = `
+Need Focus: ${values.habit}
+Motivation: ${values.motivation}
+Behavior: ${values.behavior}
+Prompt: ${values.prompt}
+Celebration: ${values.celebration}
+Flexibility Check: ${values.frequency}
+
+Ability Assessment:
+Time Required: ${values.time}
+Mental Effort: ${values.mental}
+Money Needed: ${values.money}
+Physical Effort: ${values.physical}
+Routine Compatibility: ${values.routine}
+
+Lower scores (1-2) in Time, Effort, Money, Physical Effort are generally better. Higher scores (4-5) in Routine Compatibility are better.`;
+
+      result.classList.remove("hidden");
+      result.innerText = output;
+    }
+
+    renderStep();
+  </script>
+</body>
+</html>
