@@ -71,6 +71,7 @@
       justify-content: center;
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
@@ -101,62 +102,55 @@
     <div class="try-again-btn hidden" id="tryAgainContainer">
       <button onclick="restartDesigner()">🔄 Try Another Habit</button>
     </div>
+    <div class="try-again-btn hidden" id="downloadContainer">
+      <button onclick="downloadSummary()">⬇️ Download Summary</button>
+    </div>
   </div>
-
   <script>
     const steps = [
       {
-        title: "Step 1: Identify Habit",
-        content: `
-          <label>What habit would you like to start?</label>
-          <input id="habit" type="text" placeholder="e.g., Drink more water">
-        `
+        title: "Step 1: What do you want to focus on?",
+        content: `<label for="habit">Area of Focus:</label><input id="habit" placeholder="e.g., Daily gratitude, Better sleep" />`
       },
       {
-        title: "Step 2: Clarify Purpose",
-        content: `
-          <label>Why do you want to start this habit?</label>
-          <textarea id="motivation" placeholder="e.g., To feel more energetic throughout the day"></textarea>
-        `
+        title: "Step 2: What's your motivation?",
+        content: `<label for="motivation">Why does this matter to you?</label><textarea id="motivation"></textarea>`
       },
       {
-        title: "Step 3: Choose Easy Start",
-        content: `
-          <label>Smallest version of your habit?</label>
-          <input id="behavior" type="text" placeholder="e.g., Drink one glass of water after waking up">
-          <h4>Ability Filter (1 = Low, 5 = High)</h4>
-          <label>Time Required</label><input id="time" type="number" min="1" max="5" value="3">
-          <label>Mental Effort</label><input id="mental" type="number" min="1" max="5" value="3">
-          <label>Money Needed</label><input id="money" type="number" min="1" max="5" value="1">
-          <label>Physical Effort</label><input id="physical" type="number" min="1" max="5" value="3">
-          <label>Routine Compatibility</label><input id="routine" type="number" min="1" max="5" value="3">
-        `
+        title: "Step 3: Define the behavior",
+        content: `<label for="behavior">What small behavior will you do?</label><input id="behavior" placeholder="e.g., Write 3 things I'm grateful for each night" />`
       },
       {
-        title: "Step 4: Pick Reliable Prompt",
-        content: `
-          <label>Trigger Prompt (\"When [prompt], I will [behavior]\")</label>
-          <input id="prompt" type="text" placeholder="e.g., When my alarm rings, I will drink water">
-        `
+        title: "Step 4: Design the prompt",
+        content: `<label for="prompt">When or where will this happen?</label><input id="prompt" placeholder="e.g., After brushing my teeth" />`
       },
       {
-        title: "Step 5: Celebrate Immediately",
-        content: `
-          <label>How will you celebrate?</label>
-          <input id="celebration" type="text" placeholder="e.g., Smile, Say Yes!, Fist Pump">
-        `
+        title: "Step 5: Choose a celebration",
+        content: `<label for="celebration">How will you celebrate immediately?</label><input id="celebration" placeholder="e.g., Say 'Yes!' or smile at myself in the mirror" />`
       },
       {
-        title: "Step 6: Flexibility Check",
-        content: `
-          <label>How often will you do this habit?</label>
-          <select id="frequency">
-            <option value="Daily">Daily</option>
-            <option value="Weekdays">Weekdays</option>
-            <option value="Specific Days">Specific Days (Mon, Wed, Fri)</option>
-            <option value="Flexible">Flexible (3 times/week)</option>
-          </select>
-        `
+        title: "Step 6: Frequency & Flexibility",
+        content: `<label for="frequency">How often will you do this?</label><select id="frequency"><option value="Daily">Daily</option><option value="3x/Week">3x/Week</option><option value="Weekends Only">Weekends Only</option></select>`
+      },
+      {
+        title: "Step 7: Ability Assessment - Time",
+        content: `<label for="time">How much time will it take? (1=Very short, 5=Very long)</label><input id="time" type="number" min="1" max="5" />`
+      },
+      {
+        title: "Step 8: Ability Assessment - Mental Effort",
+        content: `<label for="mental">How mentally demanding is it? (1=Easy, 5=Hard)</label><input id="mental" type="number" min="1" max="5" />`
+      },
+      {
+        title: "Step 9: Ability Assessment - Money",
+        content: `<label for="money">Does it cost money? (1=No, 5=Expensive)</label><input id="money" type="number" min="1" max="5" />`
+      },
+      {
+        title: "Step 10: Ability Assessment - Physical Effort",
+        content: `<label for="physical">How physically demanding is it? (1=Easy, 5=Hard)</label><input id="physical" type="number" min="1" max="5" />`
+      },
+      {
+        title: "Step 11: Ability Assessment - Routine Compatibility",
+        content: `<label for="routine">How well does it fit your routine? (1=Not well, 5=Perfect fit)</label><input id="routine" type="number" min="1" max="5" />`
       }
     ];
 
@@ -167,6 +161,7 @@
     const neuroInsights = document.getElementById("neuroInsights");
     const takeaway = document.getElementById("takeaway");
     const tryAgainContainer = document.getElementById("tryAgainContainer");
+    const downloadContainer = document.getElementById("downloadContainer");
 
     function renderStep() {
       const step = steps[currentStep];
@@ -212,22 +207,7 @@
         values[id] = element.value;
       }
 
-      const output = `
-Need Focus: ${values.habit}
-Motivation: ${values.motivation}
-Behavior: ${values.behavior}
-Prompt: ${values.prompt}
-Celebration: ${values.celebration}
-Flexibility Check: ${values.frequency}
-
-Ability Assessment:
-Time Required: ${values.time}
-Mental Effort: ${values.mental}
-Money Needed: ${values.money}
-Physical Effort: ${values.physical}
-Routine Compatibility: ${values.routine}
-
-Lower scores (1-2) in Time, Effort, Money, Physical Effort are generally better. Higher scores (4-5) in Routine Compatibility are better.`;
+      const output = `{{MY HABIT DESIGN\nNeed Focus: ${values.habit}\nMotivation: ${values.motivation}\nBehavior: ${values.behavior}\nPrompt: ${values.prompt}\nCelebration: ${values.celebration}\nFlexibility Check: ${values.frequency}\n\nAbility Assessment:\nTime Required: ${values.time}\nMental Effort: ${values.mental}\nMoney Needed: ${values.money}\nPhysical Effort: ${values.physical}\nRoutine Compatibility: ${values.routine}\n\nLower scores (1-2) in Time, Effort, Money, Physical Effort are generally better. Higher scores (4-5) in Routine Compatibility are better.}}`;
 
       neuroInsights.classList.remove("hidden");
       result.classList.remove("hidden");
@@ -244,6 +224,7 @@ Lower scores (1-2) in Time, Effort, Money, Physical Effort are generally better.
 
       takeaway.classList.remove("hidden");
       tryAgainContainer.classList.remove("hidden");
+      downloadContainer.classList.remove("hidden");
     }
 
     function restartDesigner() {
@@ -253,9 +234,22 @@ Lower scores (1-2) in Time, Effort, Money, Physical Effort are generally better.
       recommendation.classList.add("hidden");
       takeaway.classList.add("hidden");
       tryAgainContainer.classList.add("hidden");
+      downloadContainer.classList.add("hidden");
       renderStep();
     }
 
+    function downloadSummary() {
+      const summary = result.innerText;
+      const blob = new Blob([summary], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Resilient_Habit_Design.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initialize
     renderStep();
   </script>
 </body>
