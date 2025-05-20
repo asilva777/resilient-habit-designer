@@ -5,7 +5,7 @@
   <title>Resilient Habit Designer</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background-color: #f4f7fa;
       margin: 0;
       padding: 0;
@@ -51,17 +51,28 @@
     .hidden {
       display: none;
     }
-    .output {
+    .output, .insights, .takeaway {
       white-space: pre-wrap;
       background: #eef2f3;
       padding: 20px;
       border-radius: 10px;
       margin-top: 20px;
     }
+    .recommendation {
+      margin-top: 20px;
+      background: #dff0d8;
+      padding: 15px;
+      border-left: 5px solid #3c763d;
+      border-radius: 6px;
+    }
+    .try-again-btn {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <div class="intro">
       <h2>RESILIENT HABIT DESIGNER</h2>
@@ -73,7 +84,23 @@
       <hr>
     </div>
     <div id="stepContainer"></div>
+    <div id="neuroInsights" class="insights hidden">
+      <h3>🧠 Neuroscience Insights</h3>
+      <ul>
+        <li>✨ Neuroplasticity means your brain rewires itself with every habit you form—starting small works best.</li>
+        <li>💥 Dopamine spikes from celebrating tiny wins make new behaviors more sticky and satisfying.</li>
+        <li>⏰ Triggers (prompts) anchored to consistent events or cues help automate the new habit faster.</li>
+      </ul>
+    </div>
     <div id="result" class="output hidden"></div>
+    <div id="recommendation" class="recommendation hidden"></div>
+    <div id="takeaway" class="takeaway hidden">
+      <h3>📘 Microlearning Takeaway</h3>
+      <p>Behavior change works when you make it simple, meaningful, and prompted reliably. Celebrate each small win—your brain will remember.</p>
+    </div>
+    <div class="try-again-btn hidden" id="tryAgainContainer">
+      <button onclick="restartDesigner()">🔄 Try Another Habit</button>
+    </div>
   </div>
 
   <script>
@@ -136,6 +163,10 @@
     let currentStep = 0;
     const container = document.getElementById("stepContainer");
     const result = document.getElementById("result");
+    const recommendation = document.getElementById("recommendation");
+    const neuroInsights = document.getElementById("neuroInsights");
+    const takeaway = document.getElementById("takeaway");
+    const tryAgainContainer = document.getElementById("tryAgainContainer");
 
     function renderStep() {
       const step = steps[currentStep];
@@ -161,13 +192,11 @@
     }
 
     function handleFinalStep() {
-      // First, ensure all inputs from previous steps are in the DOM
       container.innerHTML = '';
       for (let i = 0; i < steps.length; i++) {
         container.innerHTML += `<div style="display: none;">${steps[i].content}</div>`;
       }
-
-      setTimeout(generateOutput, 0); // Wait for DOM update before generating output
+      setTimeout(generateOutput, 0);
     }
 
     function generateOutput() {
@@ -200,8 +229,31 @@ Routine Compatibility: ${values.routine}
 
 Lower scores (1-2) in Time, Effort, Money, Physical Effort are generally better. Higher scores (4-5) in Routine Compatibility are better.`;
 
+      neuroInsights.classList.remove("hidden");
       result.classList.remove("hidden");
       result.innerText = output;
+
+      const abilityTotal = ["time", "mental", "money", "physical"].reduce((sum, key) => sum + parseInt(values[key]), 0);
+      const compatible = parseInt(values.routine);
+      const recommendationText = abilityTotal <= 8 && compatible >= 4
+        ? "✅ This habit looks resilient and aligned. Move forward with confidence."
+        : "⚠️ Consider iterating this habit. Lower time, cost, or effort, or increase routine alignment.";
+
+      recommendation.classList.remove("hidden");
+      recommendation.innerText = recommendationText;
+
+      takeaway.classList.remove("hidden");
+      tryAgainContainer.classList.remove("hidden");
+    }
+
+    function restartDesigner() {
+      currentStep = 0;
+      neuroInsights.classList.add("hidden");
+      result.classList.add("hidden");
+      recommendation.classList.add("hidden");
+      takeaway.classList.add("hidden");
+      tryAgainContainer.classList.add("hidden");
+      renderStep();
     }
 
     renderStep();
