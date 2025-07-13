@@ -2,55 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Resilient Habit Designer</title>
-  <meta name="description" content="Interactive web tool based on BJ Fogg's Behavior Design Model.">
+  <title>Resilient Habit Designer – Interactive Behavior Design Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Resilient Habit Designer is an interactive web tool based on BJ Fogg's Behavior Design Model. Design habits, get actionable recommendations, and download your plan.">
+  <meta name="keywords" content="habit designer, BJ Fogg, behavior design, habit formation, web tool, PWA, behavior model">
+  <meta name="theme-color" content="#0d6efd">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self';">
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192.png">
-  <meta name="theme-color" content="#1976d2">
-  <style>
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="script.js" as="script">
   <link rel="stylesheet" href="style.css">
-  </style>
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/icon-512.png" sizes="512x512">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Resilient Habit Designer",
+      "description": "Interactive web tool based on BJ Fogg's Behavior Design Model.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "All",
+      "url": "https://asilva777.github.io/resilient-habit-designer/",
+      "screenshot": "https://asilva777.github.io/resilient-habit-designer/screenshot.png"
+    }
+  </script>
 </head>
 <body>
   <header>
-    <h1>Resilient Habit Designer</h1>
-    <p>Build Habits with the B = MAP Formula
-To create lasting behavior, use this simple yet powerful equation:
-
-B = MAP, where:
-B = Behavior
-M = Motivation — your desire to take action
-A = Ability — how easy the behavior is to do
-P = Prompt — the trigger or cue that initiates the behavior
-
-📌 When all three elements—motivation, ability, and prompt—come together at the same moment, a behavior naturally occurs.</p>
+    <nav aria-label="Main">
+      <h1>Resilient Habit Designer</h1>
+      <p id="tagline">Interactive tool based on BJ Fogg's Behavior Design Model</p>
+    </nav>
   </header>
+
   <main>
-    <ol id="progressBar" aria-label="Progress"></ol>
-    <section id="stepContainer"></section>
-    <section id="result" class="hidden" tabindex="0" aria-live="polite"></section>
-    <div id="recommendation" class="hidden"></div>
-    <div id="neuroInsights" class="hidden">
-      <h3>Science-backed Tip</h3>
-      <p>Resilient habits are tiny, easy, and tied to routines. Celebrate each win to wire the habit fast!</p>
-    </div>
-    <div id="takeaway" class="hidden">
-      <strong>Keep going!</strong> Small, consistent actions make the biggest difference.
-    </div>
-    <div id="tryAgainContainer" class="hidden" style="margin:1.5rem 0 .5rem 0;">
-      <button onclick="restartDesigner()">Try Again</button>
-    </div>
-    <div id="downloadContainer" class="hidden">
-      <button onclick="downloadSummary()">Download Habit Design</button>
-    </div>
+    <section id="introduction" aria-labelledby="intro-heading">
+      <h2 id="intro-heading">Design Your Habit</h2>
+      <p>
+        Use this interactive tool to design a resilient new habit using principles from <a href="https://www.behaviormodel.org/" target="_blank" rel="noopener">BJ Fogg's Behavior Design Model</a>. Answer the questions below to get a personalized recommendation.
+      </p>
+    </section>
+
+    <form id="habit-form" aria-label="Habit Design Questionnaire" autocomplete="off">
+      <fieldset>
+        <legend>1. What habit do you want to design?</legend>
+        <label for="habit-description">Describe your habit:</label>
+        <input type="text" id="habit-description" name="habit-description" required aria-required="true" placeholder="e.g., Drink a glass of water after waking up" tabindex="0">
+      </fieldset>
+      <fieldset>
+        <legend>2. What will prompt this habit?</legend>
+        <label for="prompt">Trigger or prompt:</label>
+        <input type="text" id="prompt" name="prompt" required aria-required="true" placeholder="e.g., After I turn off my alarm" tabindex="0">
+      </fieldset>
+      <fieldset>
+        <legend>3. How easy is it to do?</legend>
+        <label for="ease">Ease:</label>
+        <select id="ease" name="ease" required aria-required="true" tabindex="0">
+          <option value="" selected disabled>Select...</option>
+          <option value="very-easy">Very easy</option>
+          <option value="easy">Easy</option>
+          <option value="moderate">Moderate</option>
+          <option value="hard">Hard</option>
+        </select>
+      </fieldset>
+      <fieldset>
+        <legend>4. What will make it rewarding?</legend>
+        <label for="reward">Reward:</label>
+        <input type="text" id="reward" name="reward" required aria-required="true" placeholder="e.g., I feel refreshed and proud" tabindex="0">
+      </fieldset>
+      <button type="submit" id="submit-btn" aria-label="Get Recommendation" title="Get your personalized habit recommendation">Get Recommendation</button>
+    </form>
+
+    <section id="recommendation-section" aria-labelledby="recommendation-heading" hidden>
+      <h2 id="recommendation-heading">Your Personalized Habit Plan</h2>
+      <div id="recommendation" aria-live="polite" tabindex="0">
+        <!-- Dynamic recommendation content -->
+        <p>Loading your recommendation...</p>
+      </div>
+      <button id="download-btn" aria-label="Download Habit Plan" title="Download your habit plan as a PDF">Download Plan</button>
+      <button id="try-again-btn" aria-label="Restart Habit Designer" title="Restart the habit design process">Try Again</button>
+    </section>
+    
+    <section id="feedback" aria-live="polite" hidden>
+      <!-- Dynamic feedback messages (e.g., loading, success) -->
+    </section>
   </main>
-  <script src="script.js"></script>
+
+  <footer>
+    <section aria-label="About and Credits">
+      <p>
+        Inspired by <a href="https://www.behaviormodel.org/" target="_blank" rel="noopener">BJ Fogg's Behavior Design Model</a>.
+        <br>
+        <small>&copy; <span id="year"></span> Resilient Habit Designer. All rights reserved.</small>
+      </p>
+    </section>
+  </footer>
+
+  <!-- Service worker, manifest, and script loading -->
+  <script src="script.js" defer></script>
   <script>
-    // Register service worker for PWA
+    // Set the copyright year
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    // Register Service Worker for PWA functionality with error handling
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(console.error);
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker failed to register:', error);
+            const feedback = document.getElementById('feedback');
+            if (feedback) {
+              feedback.textContent = 'PWA features unavailable (service worker failed to register).';
+              feedback.hidden = false;
+            }
+          });
       });
     }
   </script>
