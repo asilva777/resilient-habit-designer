@@ -2,14 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Resilient Habit Designer</title>
+  <title>Resilient Habit Designer | Behavior Change Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO & Accessibility -->
+  <meta name="description" content="An interactive web tool for building habits using BJ Fogg's Behavior Design Model. Discover neuroscience insights and microlearning takeaways to make behavior change easier and sustainable.">
+  <!-- Social & Open Graph -->
+  <meta property="og:title" content="Resilient Habit Designer" />
+  <meta property="og:description" content="An interactive web tool for building habits using BJ Fogg's Behavior Design Model." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://asilva777.github.io/resilient-habit-designer/" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
     <h1></h1>
+    <!-- Expandable Navigation -->
+    <nav aria-label="Main site navigation">
+      <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <!-- Future links for expansion -->
+        <!-- <li><a href="/about">About</a></li> -->
+        <!-- <li><a href="/resources">Resources</a></li> -->
+      </ul>
+    </nav>
   </header>
   <main>
     <section class="container" aria-label="Resilient Habit Designer Form">
@@ -19,11 +35,10 @@
           <strong>B = MAP</strong>, where <strong>B</strong> represents Behavior, <strong>M</strong> stands for Motivation,
           <strong>A</strong> stands for Ability, and <strong>P</strong> stands for Prompt.
         </p>
-        <p>This formula encapsulates the core components of how behavior change occurs.</p>
-        <p>
-          To stop a habit or unwanted behavior: reverse the formula to <strong>B = M - A - P</strong>.
-          Making all these three (3) factors difficult to act upon can effectively disrupt the behavior.
-        </p>
+        <ul>
+          <li>This formula encapsulates the core components of how behavior change occurs.</li>
+          <li>To stop a habit or unwanted behavior: reverse the formula to <strong>B = M - A - P</strong>. Making all these three (3) factors difficult to act upon can effectively disrupt the behavior.</li>
+        </ul>
         <p>
           <a href="https://aiwaapp.ai/site/51213/menu-behaviors" target="_blank" rel="noopener noreferrer">
             MENU OF SAMPLE RESILIENT BEHAVIORS, TINY GOALS, CELEBRATIONS, AND PROMPTS
@@ -31,24 +46,33 @@
         </p>
         <hr>
       </div>
+
+      <!-- Accessible Progress Bar (Steps should be rendered by JS) -->
       <nav aria-label="Progress">
-        <ol id="progressBar" class="progress-bar"></ol>
+        <ol id="progressBar" class="progress-bar" aria-live="polite" aria-label="Step progress"></ol>
       </nav>
+
       <div id="stepContainer"></div>
-      <section id="neuroInsights" class="insights hidden" aria-live="polite">
-        <h2>🧠 Neuroscience Insights</h2>
+
+      <!-- Insights Section as Article -->
+      <article id="neuroInsights" class="insights hidden" aria-live="polite" aria-label="Neuroscience Insights">
+        <h2 lang="en">🧠 Neuroscience Insights</h2>
         <ul>
-          <li>✨ Neuroplasticity means your brain rewires itself with every habit you form—starting small works best.</li>
-          <li>💥 Dopamine spikes from celebrating tiny wins make new behaviors more sticky and satisfying.</li>
-          <li>⏰ Triggers (prompts) anchored to consistent events or cues help automate the new habit faster.</li>
+          <li lang="en">✨ Neuroplasticity means your brain rewires itself with every habit you form—starting small works best.</li>
+          <li lang="en">💥 Dopamine spikes from celebrating tiny wins make new behaviors more sticky and satisfying.</li>
+          <li lang="en">⏰ Triggers (prompts) anchored to consistent events or cues help automate the new habit faster.</li>
         </ul>
-      </section>
+      </article>
+
       <output id="result" class="output hidden" aria-live="polite"></output>
       <div id="recommendation" class="recommendation hidden" aria-live="polite"></div>
-      <section id="takeaway" class="takeaway hidden" aria-live="polite">
-        <h2>📘 Microlearning Takeaway</h2>
-        <p>Behavior change works when you make it simple, meaningful, and prompted reliably. Celebrate each small win—your brain will remember.</p>
-      </section>
+
+      <!-- Takeaway Section as Article -->
+      <article id="takeaway" class="takeaway hidden" aria-live="polite" aria-label="Microlearning Takeaway">
+        <h2 lang="en">📘 Microlearning Takeaway</h2>
+        <p lang="en">Behavior change works when you make it simple, meaningful, and prompted reliably. Celebrate each small win—your brain will remember.</p>
+      </article>
+
       <div class="try-again-btn hidden" id="tryAgainContainer">
         <button type="button" onclick="restartDesigner()" aria-label="Restart habit designer">🔄 Try Another Habit</button>
       </div>
@@ -56,10 +80,15 @@
         <button type="button" onclick="downloadSummary()" aria-label="Download summary">⬇️ Download Summary</button>
       </div>
     </section>
+    <noscript>
+      <section aria-label="JavaScript required" style="color: red;">
+        <p>This tool requires JavaScript to function properly. Please enable JavaScript in your browser.</p>
+      </section>
+    </noscript>
   </main>
   <footer>
     <p>&copy; 2025 Resilient Habit Designer</p>
   </footer>
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
