@@ -2,78 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Resilient Habit Designer | Behavior Change Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- SEO & Accessibility -->
-  <meta name="description" content="An interactive web tool for building habits using BJ Fogg's Behavior Design Model. Discover neuroscience insights and microlearning takeaways to make behavior change easier and sustainable.">
-  <!-- Social & Open Graph -->
-  <meta property="og:title" content="Resilient Habit Designer" />
-  <meta property="og:description" content="An interactive web tool for building habits using BJ Fogg's Behavior Design Model." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://asilva777.github.io/resilient-habit-designer/" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Resilient Habit Designer</title>
+  <meta name="description" content="Interactive web tool based on BJ Fogg's Behavior Design Model.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#1976d2">
+  <style>
+    body {
+      font-family: system-ui,sans-serif; margin:0; padding:0; background:#f9f9fb; color:#222;
+    }
+    header { background:#1976d2; color:#fff; padding:1.5rem 1rem 1rem 1rem; text-align:center; }
+    main { max-width:430px; margin:2rem auto; background:#fff; border-radius:12px; box-shadow:0 2px 8px #0001; padding:2rem 1.5rem 2rem 1.5rem; }
+    #progressBar { display:flex; list-style:none; gap:4px; padding:0; margin:1rem 0; }
+    #progressBar li { flex:1; height:5px; background:#e0e0e0; border-radius:3px; transition:.3s; }
+    #progressBar li.active { background:#1976d2; }
+    .hidden { display:none !important; }
+    .buttons { display:flex; justify-content:space-between; margin:1rem 0 0 0;}
+    button { background:#1976d2; color:#fff; border:none; padding:.65rem 1.4rem; border-radius:5px; cursor:pointer; font-size:1rem; }
+    button#backBtn { background:#bbb; }
+    textarea,input,select { width:100%; margin:.5rem 0 1rem 0; padding:.6rem; border:1px solid #bbb; border-radius:5px; font-size:1rem; }
+    textarea { resize:vertical; }
+    .error-message { color:#b71c1c; min-height:1.2em; font-size:.98em; margin-bottom:.7em;}
+    #result { white-space:pre-line; background:#f1f6fd; border-radius:7px; padding:1rem; margin:1rem 0;}
+    #recommendation { font-weight:bold; margin:1rem 0 .5rem 0; }
+    #takeaway { background:#e8f5e9; border-left:4px solid #43a047; padding:.7em 1em; margin:1.5em 0 .7em 0; border-radius:4px;}
+    @media (max-width: 600px) {
+      body { font-size: 1em; }
+      main { border-radius:0; box-shadow:none; padding:1rem; }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1></h1>
-    </nav>
+    <h1>Resilient Habit Designer</h1>
+    <p>Build habits using BJ Fogg’s Behavior Design Model</p>
   </header>
   <main>
-    <section class="container" aria-label="Resilient Habit Designer Form">
-      <div class="intro">
-        <p>
-          The Behavior Design Model, developed by BJ Fogg, simplifies behavior change into a formula:
-          <strong>B = MAP</strong>, where <strong>B</strong> represents Behavior, <strong>M</strong> stands for Motivation,
-          <strong>A</strong> stands for Ability, and <strong>P</strong> stands for Prompt.
-        </p>
-        <ul>
-          <li>This formula encapsulates the core components of how behavior change occurs.</li>
-          <li>To stop a habit or unwanted behavior: reverse the formula to <strong>B = M - A - P</strong>. Making all these three (3) factors difficult to act upon can effectively disrupt the behavior.</li>
-        </ul>
-        <p>
-          </a>
-        </p>
-        <hr>
-      </div>
-
-      <!-- Accessible Progress Bar (Steps should be rendered by JS) -->
-      <nav aria-label="Progress">
-        <ol id="progressBar" class="progress-bar" aria-live="polite" aria-label="Step progress"></ol>
-      </nav>
-
-      <!-- Insights Section as Article -->
-      <article id="neuroInsights" class="insights hidden" aria-live="polite" aria-label="Neuroscience Insights">
-        <h2 lang="en">🧠 Neuroscience Insights</h2>
-        <ul>
-          <li lang="en">✨ Neuroplasticity means your brain rewires itself with every habit you form—starting small works best.</li>
-          <li lang="en">💥 Dopamine spikes from celebrating tiny wins make new behaviors more sticky and satisfying.</li>
-          <li lang="en">⏰ Triggers (prompts) anchored to consistent events or cues help automate the new habit faster.</li>
-        </ul>
-      </article>
-
-      <output id="result" class="output hidden" aria-live="polite"></output>
-      <div id="recommendation" class="recommendation hidden" aria-live="polite"></div>
-
-      <!-- Takeaway Section as Article -->
-      <article id="takeaway" class="takeaway hidden" aria-live="polite" aria-label="Microlearning Takeaway">
-        <h2 lang="en">📘 Microlearning Takeaway</h2>
-        <p lang="en">Behavior change works when you make it simple, meaningful, and prompted reliably. Celebrate each small win—your brain will remember.</p>
-      </article>
-
-      <div class="try-again-btn hidden" id="tryAgainContainer">
-        <button type="button" onclick="restartDesigner()" aria-label="Restart habit designer">🔄 Try Another Habit</button>
-      </div>
-      <div class="try-again-btn hidden" id="downloadContainer">
-        <button type="button" onclick="downloadSummary()" aria-label="Download summary">⬇️ Download Summary</button>
-      </div>
-    </section>
-    <noscript>
-      <section aria-label="JavaScript required" style="color: red;">
-        <p>This tool requires JavaScript to function properly. Please enable JavaScript in your browser.</p>
-      </section>
-    </noscript>
+    <ol id="progressBar" aria-label="Progress"></ol>
+    <section id="stepContainer"></section>
+    <section id="result" class="hidden" tabindex="0" aria-live="polite"></section>
+    <div id="recommendation" class="hidden"></div>
+    <div id="neuroInsights" class="hidden">
+      <h3>Science-backed Tip</h3>
+      <p>Resilient habits are tiny, easy, and tied to routines. Celebrate each win to wire the habit fast!</p>
+    </div>
+    <div id="takeaway" class="hidden">
+      <strong>Keep going!</strong> Small, consistent actions make the biggest difference.
+    </div>
+    <div id="tryAgainContainer" class="hidden" style="margin:1.5rem 0 .5rem 0;">
+      <button onclick="restartDesigner()">Try Again</button>
+    </div>
+    <div id="downloadContainer" class="hidden">
+      <button onclick="downloadSummary()">Download Habit Design</button>
+    </div>
   </main>
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
+  <script>
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(console.error);
+      });
+    }
+  </script>
 </body>
 </html>
