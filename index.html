@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/icon-512.png" sizes="512x512">
-  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -37,12 +36,17 @@
       <fieldset>
         <legend>1. What habit do you want to design?</legend>
         <label for="habit-description">Describe your habit:</label>
-        <input type="text" id="habit-description" name="habit-description" required aria-required="true" placeholder="e.g., Drink a glass of water after waking up" tabindex="0">
+        <input type="text" id="habit-description" name="habit-description" required aria-required="true" placeholder="e.g.,Journal 3 “micro-wins” at the end of each day, especially during transitions." tabindex="0">
+      </fieldset>
+      <fieldset>
+        <legend>2. What motivates you to design this habit?</legend>
+        <label for="tiny-goal">Achievable Tiny Goal:</label>
+        <input type="text" id="tiny-goal" name="tiny-goal" required aria-required="true" placeholder="e.g., I want to build the habit of journaling my small wins because people around me value reflection and gratitude, and it fits naturally into my quiet evening routine a glass of water after waking up" tabindex="0">
       </fieldset>
       <fieldset>
         <legend>2. What will prompt this habit?</legend>
         <label for="prompt">Trigger or prompt:</label>
-        <input type="text" id="prompt" name="prompt" required aria-required="true" placeholder="e.g., After I turn off my alarm" tabindex="0">
+        <input type="text" id="prompt" name="prompt" required aria-required="true" placeholder="e.g.,Right before bed" tabindex="0">
       </fieldset>
       <fieldset>
         <legend>3. How easy is it to do?</legend>
@@ -67,7 +71,7 @@
       <h2 id="recommendation-heading">Your Personalized Habit Plan</h2>
       <div id="recommendation" aria-live="polite" tabindex="0">
         <!-- Dynamic recommendation content -->
-        <p>Loading your recommendation...</p>
+        <p>Recommendation:</p>
       </div>
       <button id="download-btn" aria-label="Download Habit Plan" title="Download your habit plan as a PDF">Download Plan</button>
       <button id="try-again-btn" aria-label="Restart Habit Designer" title="Restart the habit design process">Try Again</button>
@@ -89,7 +93,7 @@
     // Register Service Worker for PWA functionality with error handling
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js')
+        navigator.serviceWorker.register('serviceworker.js')
           .then(registration => {
             console.log('Service Worker registered with scope:', registration.scope);
           })
