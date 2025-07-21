@@ -14,13 +14,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/icon-512.png" sizes="512x512">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "applicationCategory": "LifestyleApplication",
-      "operatingSystem": "All",
-      "url": "https://asilva777.github.io/resilient-habit-designer/"
-    }
   </script>
 </head>
 <body>
@@ -28,12 +21,13 @@
     <section id="introduction" aria-labelledby="intro-heading">
       <h2 id="intro-heading">Design Your Habit</h2>
       <p>
-        Use this interactive tool to design a resilient new habit using principles from <a href="https://www.behaviormodel.org/" target="_blank" rel="noopener">BJ Fogg's Behavior Design Model</a>. Answer the questions below to get a personalized recommendation.
+        Use this interactive tool to design a resilient new habit using principles from <a href="https://www.behaviormodel.org/" target="_blank" rel="noopener">BJ Fogg's Behavior Design Model</a>. Answer the questions below to get a personalized recommendation. Feel free to copy specific habit, tiny goal, prompt, and celebration copy from the MENU of RESILIENT HABITS <a href="https://personal-resilience.aiwaapp.live/menu-behaviors" target="_blank" rel="noopener
       </p>
     </section>
     <form id="habit-form" aria-label="Habit Design Questionnaire" autocomplete="on">
 
       <form>
+        <br>
   <fieldset>
     <legend>Choose your Context</legend>
     <label><input type="radio" name="context" value="work"> Work</label>
@@ -41,11 +35,16 @@
     <label><input type="radio" name="context" value="social"> Social</label>
     <label><input type="radio" name="context" value="any"> Any</label>
   </fieldset>
+        </br>
+
+            <br>
   <fieldset>
     <legend>1. What habit do you want to design?</legend>
       <label for="habit-description">Describe your habit:</label>
         <input type="text" id="habit-description" name="habit-description" required aria-required="true" placeholder="e.g.,Journal 3 “micro-wins” at the end of each day, especially during transitions." tabindex="0">
       </fieldset>
+        </br>
+                <br>
       <fieldset>
         <legend>2. What motivates you to design this habit?</legend>
         <label for="tiny-goal">Achievable Tiny Goal:</label>
@@ -56,11 +55,15 @@
     <label><input type="radio" name="motivation" value="medium"> Medium</label>
     <label><input type="radio" name="motivation" value="high"> High</label>
   </fieldset>
+        </br>
+                <br>
       <fieldset>
         <legend>3. What will prompt this habit?</legend>
         <label for="prompt">Trigger or prompt:</label>
         <input type="text" id="prompt" name="prompt" required aria-required="true" placeholder="e.g.,Right before bed" tabindex="0">
       </fieldset>
+        </br>
+                <br>
       <fieldset>
         <legend>4. How easy is it to do?</legend>
         <label for="ease">Ease:</label>
@@ -72,11 +75,16 @@
           <option value="hard">Hard</option>
         </select>
       </fieldset>
+        </br>
+                <br>
       <fieldset>
         <legend>5. What will make it rewarding?</legend>
         <label for="reward">Celebrate:</label>
         <input type="text" id="reward" name="reward" required aria-required="true" placeholder="e.g., Whisper “Yes, I’m making progress.” with a small smile." tabindex="0">
       </fieldset>
+        </br>
+                <br>
+      </br>
       <button type="submit" id="submit-btn" aria-label="Get Recommendation" title="Get your personalized habit recommendation">Get Recommendation</button>
     </form>
     <section id="recommendation-section" aria-labelledby="recommendation-title">
