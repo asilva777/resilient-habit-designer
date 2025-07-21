@@ -42,6 +42,12 @@ input[type="number"] {
 input:invalid, textarea:invalid {
   border-color: #dc3545;
 }
+
+input:focus, button:focus {
+  outline: 3px solid #c80ec9;
+  outline-offset: 2px;
+}
+
 .buttons {
   margin-top: 20px;
   display: flex;
