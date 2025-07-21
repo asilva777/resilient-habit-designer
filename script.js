@@ -62,6 +62,60 @@ const steps = [
               <input id="routine" type="number" min="1" max="5" required />`
   }
 ];
+document.getElementById('getRecommendation').addEventListener('click', () => {
+  const contextEl = document.querySelector('input[name="context"]:checked');
+  const abilityEl = document.querySelector('input[name="ability"]:checked');
+  const motivationEl = document.querySelector('input[name="motivation"]:checked');
+
+  const context = contextEl ? contextEl.value : null;
+  const ability = abilityEl ? abilityEl.value : null;
+  const motivation = motivationEl ? motivationEl.value : null;
+
+  const recList = document.getElementById('recommendation-list');
+  recList.innerHTML = '';
+
+  if (!context || !ability || !motivation) {
+    recList.innerHTML = '<li role="alert">Please select your context, ability, and motivation.</li>';
+    return;
+  }
+
+  const habits = [
+    { name: 'Take a 5-min walk', context: 'work', ability: 'low', motivation: 'low' },
+    { name: 'Do a quick breathing exercise', context: 'any', ability: 'low', motivation: 'high' },
+    { name: 'Journal morning gratitude', context: 'home', ability: 'medium', motivation: 'medium' },
+    { name: 'Invite a friend for a catch-up', context: 'social', ability: 'medium', motivation: 'high' },
+    { name: 'Try a 2-min desk stretch', context: 'work', ability: 'low', motivation: 'medium' },
+    { name: 'Mindful breathing before bed', context: 'home', ability: 'low', motivation: 'low' }
+  ];
+
+  const recommendations = habits.filter(h =>
+    (h.context === context || h.context === 'any') &&
+    abilityMapping(ability).includes(h.ability) &&
+    motivationMapping(motivation).includes(h.motivation)
+  );
+
+  if (recommendations.length === 0) {
+    recList.innerHTML = '<li>No matching habits found. Try adjusting your selections.</li>';
+  } else {
+    recommendations.forEach(h => {
+      const li = document.createElement('li');
+      li.textContent = h.name;
+      recList.appendChild(li);
+    });
+  }
+});
+
+function abilityMapping(level) {
+  if (level === 'low') return ['low'];
+  if (level === 'medium') return ['low', 'medium'];
+  return ['low', 'medium', 'high'];
+}
+
+function motivationMapping(level) {
+  if (level === 'low') return ['low'];
+  if (level === 'medium') return ['low', 'medium'];
+  return ['low', 'medium', 'high'];
+}
 
 // DOM Elements
 let currentStep = 0;
