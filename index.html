@@ -31,25 +31,38 @@
         Use this interactive tool to design a resilient new habit using principles from <a href="https://www.behaviormodel.org/" target="_blank" rel="noopener">BJ Fogg's Behavior Design Model</a>. Answer the questions below to get a personalized recommendation.
       </p>
     </section>
-
     <form id="habit-form" aria-label="Habit Design Questionnaire" autocomplete="on">
-      <fieldset>
-        <legend>1. What habit do you want to design?</legend>
-        <label for="habit-description">Describe your habit:</label>
+
+      <form>
+  <fieldset>
+    <legend>Choose your Context</legend>
+    <label><input type="radio" name="context" value="work"> Work</label>
+    <label><input type="radio" name="context" value="home"> Home</label>
+    <label><input type="radio" name="context" value="social"> Social</label>
+    <label><input type="radio" name="context" value="any"> Any</label>
+  </fieldset>
+  <fieldset>
+    <legend>1. What habit do you want to design?</legend>
+      <label for="habit-description">Describe your habit:</label>
         <input type="text" id="habit-description" name="habit-description" required aria-required="true" placeholder="e.g.,Journal 3 “micro-wins” at the end of each day, especially during transitions." tabindex="0">
       </fieldset>
       <fieldset>
         <legend>2. What motivates you to design this habit?</legend>
         <label for="tiny-goal">Achievable Tiny Goal:</label>
         <input type="text" id="tiny-goal" name="tiny-goal" required aria-required="true" placeholder="e.g., I want to build the habit of journaling my small wins because people around me value reflection and gratitude, and it fits naturally into my quiet evening routine a glass of water after waking up" tabindex="0">
-      </fieldset>
+    </fieldset>
+    <legend>How motivated do you feel?</legend>
+    <label><input type="radio" name="motivation" value="low"> Low</label>
+    <label><input type="radio" name="motivation" value="medium"> Medium</label>
+    <label><input type="radio" name="motivation" value="high"> High</label>
+  </fieldset>
       <fieldset>
-        <legend>2. What will prompt this habit?</legend>
+        <legend>3. What will prompt this habit?</legend>
         <label for="prompt">Trigger or prompt:</label>
         <input type="text" id="prompt" name="prompt" required aria-required="true" placeholder="e.g.,Right before bed" tabindex="0">
       </fieldset>
       <fieldset>
-        <legend>3. How easy is it to do?</legend>
+        <legend>4. How easy is it to do?</legend>
         <label for="ease">Ease:</label>
         <select id="ease" name="ease" required aria-required="true" tabindex="0">
           <option value="" selected disabled>Select...</option>
@@ -60,17 +73,20 @@
         </select>
       </fieldset>
       <fieldset>
-        <legend>4. What will make it rewarding?</legend>
+        <legend>5. What will make it rewarding?</legend>
         <label for="reward">Celebrate:</label>
-        <input type="text" id="reward" name="reward" required aria-required="true" placeholder="e.g., I feel refreshed and proud" tabindex="0">
+        <input type="text" id="reward" name="reward" required aria-required="true" placeholder="e.g., Whisper “Yes, I’m making progress.” with a small smile." tabindex="0">
       </fieldset>
       <button type="submit" id="submit-btn" aria-label="Get Recommendation" title="Get your personalized habit recommendation">Get Recommendation</button>
     </form>
+    <section id="recommendation-section" aria-labelledby="recommendation-title">
+  <h2 id="recommendation-title">Recommended Habits</h2>
+  <button id="getRecommendation" aria-controls="recommendation-list">Get Recommendation</button>
+  <ul id="recommendation-list" role="list" aria-live="polite"></ul>
+</section>
 
-    <section id="recommendation-section" aria-labelledby="recommendation-heading" hidden>
-      <h2 id="recommendation-heading">Your Personalized Habit Plan</h2>
-      <div id="recommendation" aria-live="polite" tabindex="0">
         <!-- Dynamic recommendation content -->
+        
         <p>Recommendation:</p>
       </div>
       <button id="download-btn" aria-label="Download Habit Plan" title="Download your habit plan as a PDF">Download Plan</button>
