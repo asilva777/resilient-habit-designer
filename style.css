@@ -1,8 +1,8 @@
 /* style.css – Resilient Habit Designer */
 :root {
-  --primary: #0d6efd;
-  --background: #f7f7fc;
-  --text: #212529;
+  --primary: #000000;
+  --background: #ffffff;
+  --text: #000000;
   --radius: 8px;
   --padding: 1rem;
 }
